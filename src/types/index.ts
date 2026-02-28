@@ -62,6 +62,20 @@ export interface FooterProps {
 }
 
 /**
+ * Represents a Minecraft farm build from the API
+ */
+export interface Build {
+  id: number;
+  name: string;
+  output: string;
+  dimension: string;
+  'rate/hr': number | string;
+  difficulty: number;
+  afk: boolean;
+  version: string;
+  java: boolean;
+  youtubelink: string;
+}
  * Props for the SearchBar component
  */
 export interface SearchBarProps {
