@@ -1,8 +1,10 @@
 'use client';
 
+
 import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import { NavigationBarProps, NavLink } from '@/types';
+import Image from 'next/image';
 
 const NAV_LINKS: NavLink[] = [
   { label: 'Home', href: '/' },
@@ -39,16 +41,23 @@ export function NavigationBar({ siteName = 'FarmCraft' }: NavigationBarProps) {
     <header className="bg-green-800 text-white shadow-lg">
       <nav
         aria-label="Main navigation"
-        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+        className="px-4 sm:px-6 lg:px-8"
       >
         <div className="flex items-center justify-between h-16">
           {/* Site name / logo */}
           <div className="flex-shrink-0">
             <Link
               href="/"
-              className="text-xl font-bold hover:text-green-200 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-offset-2 focus:ring-offset-green-800 rounded px-2 py-1"
+              className="flex items-center gap-2 hover:text-green-200 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-offset-2 focus:ring-offset-green-800 rounded px-2 py-1"
             >
-              {siteName}
+              {/* Add the Image component */}
+              <Image
+                src="/logo.png"
+                alt="FarmCraft Logo"
+                width={200}
+                height={200}
+                className="rounded-sm"
+              />
             </Link>
           </div>
 
