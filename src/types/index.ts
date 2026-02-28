@@ -1,0 +1,61 @@
+/**
+ * TypeScript type definitions for Minecraft Farm Wiki
+ */
+
+/**
+ * Represents a farm category for the wiki
+ */
+export interface FarmCategory {
+  id: string;
+  title: string;
+  description: string;
+}
+
+/**
+ * Represents a navigation link
+ */
+export interface NavLink {
+  label: string;
+  href: string;
+}
+
+/**
+ * Props for the NavigationBar component
+ */
+export interface NavigationBarProps {
+  siteName?: string;
+}
+
+/**
+ * Props for the HeroSection component
+ */
+export interface HeroSectionProps {
+  headline: string;
+  subheadline: string;
+  ctaText: string;
+  ctaHref: string;
+}
+
+/**
+ * Props for the FeatureCard component
+ */
+export interface FeatureCardProps {
+  title: string;
+  description: string;
+  icon?: React.ReactNode;
+}
+
+/**
+ * Props for the FarmCategories component
+ */
+export interface FarmCategoriesProps {
+  categories: FarmCategory[];
+}
+
+/**
+ * Props for the Footer component
+ */
+export interface FooterProps {
+  copyrightYear?: number;
+  siteName?: string;
+}
