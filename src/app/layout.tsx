@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Minecraft Farm Wiki",
+  title: "FarmCraft",
   description:
     "Your comprehensive guide to automated Minecraft farms. Discover crop farms, mob farms, and resource generation systems with detailed build tutorials.",
 };

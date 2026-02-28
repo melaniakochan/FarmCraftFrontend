@@ -34,6 +34,7 @@ export interface HeroSectionProps {
   subheadline: string;
   ctaText: string;
   ctaHref: string;
+  children?: React.ReactNode;
 }
 
 /**
@@ -74,4 +75,20 @@ export interface Build {
   version: string;
   java: boolean;
   youtubelink: string;
+}
+ * Props for the SearchBar component
+ */
+export interface SearchBarProps {
+  placeholder?: string;
+  onSearch: (query: string) => void;
+}
+
+/**
+ * Props for the HeroSearchWrapper component
+ */
+export interface HeroSearchWrapperProps {
+  headline: string;
+  subheadline: string;
+  ctaText: string;
+  ctaHref: string;
 }
