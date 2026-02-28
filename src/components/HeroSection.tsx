@@ -5,7 +5,7 @@ import { HeroSectionProps } from '@/types';
  * HeroSection component displays the main headline, subheadline, and call-to-action
  * for the landing page. Uses semantic HTML with proper heading hierarchy.
  */
-export function HeroSection({ headline, subheadline, ctaText, ctaHref }: HeroSectionProps) {
+export function HeroSection({ headline, subheadline, ctaText, ctaHref, children }: HeroSectionProps) {
   return (
     <section
       className="bg-gradient-to-br from-green-900 via-green-800 to-emerald-900 py-20 px-4 sm:px-6 lg:px-8"
@@ -23,11 +23,17 @@ export function HeroSection({ headline, subheadline, ctaText, ctaHref }: HeroSec
         </p>
         <Link
           href={ctaHref}
-          className="inline-block bg-amber-500 hover:bg-amber-400 text-gray-900 font-semibold py-3 px-8 rounded-lg text-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-amber-300 focus:ring-offset-2 focus:ring-offset-green-900"
+          className="inline-block bg-amber-500 mb-10 hover:bg-amber-400 text-gray-900 font-semibold py-3 px-8 rounded-lg text-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-amber-300 focus:ring-offset-2 focus:ring-offset-green-900"
         >
           {ctaText}
         </Link>
+
+        <div className="w-full max-w-md mx-auto">
+          {children}
+        </div>
+
       </div>
+
     </section>
   );
 }

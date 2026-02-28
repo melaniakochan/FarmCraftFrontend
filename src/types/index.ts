@@ -34,6 +34,7 @@ export interface HeroSectionProps {
   subheadline: string;
   ctaText: string;
   ctaHref: string;
+  children?: React.ReactNode;
 }
 
 /**
@@ -58,4 +59,22 @@ export interface FarmCategoriesProps {
 export interface FooterProps {
   copyrightYear?: number;
   siteName?: string;
+}
+
+/**
+ * Props for the SearchBar component
+ */
+export interface SearchBarProps {
+  placeholder?: string;
+  onSearch: (query: string) => void;
+}
+
+/**
+ * Props for the HeroSearchWrapper component
+ */
+export interface HeroSearchWrapperProps {
+  headline: string;
+  subheadline: string;
+  ctaText: string;
+  ctaHref: string;
 }
