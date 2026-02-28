@@ -45,7 +45,7 @@ export function NavigationBar({ siteName = 'FarmCraft' }: NavigationBarProps) {
       >
         <div className="flex items-center justify-between h-16">
           {/* Site name / logo */}
-          <div className="flex-shrink-0">
+          <div className="shrink-0">
             <Link
               href="/"
               className="flex items-center gap-2 hover:text-green-200 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-offset-2 focus:ring-offset-green-800 rounded px-2 py-1"

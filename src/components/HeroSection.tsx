@@ -8,7 +8,7 @@ import { HeroSectionProps } from '@/types';
 export function HeroSection({ headline, subheadline, children }: HeroSectionProps) {
   return (
     <section
-      className="bg-gradient-to-br from-green-900 via-green-800 to-emerald-900 py-20 px-4 sm:px-6 lg:px-8"
+      className="bg-linear-to-br from-green-900 via-green-800 to-emerald-900 py-20 px-4 sm:px-6 lg:px-8"
       aria-labelledby="hero-heading"
     >
       <div className="max-w-4xl mx-auto text-center">
