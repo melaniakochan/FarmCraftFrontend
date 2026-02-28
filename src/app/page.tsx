@@ -3,6 +3,8 @@ import { NavigationBar } from '@/components/NavigationBar';
 import { HeroSection } from '@/components/HeroSection';
 import { FarmCategories, FARM_CATEGORIES } from '@/components/FarmCategories';
 import { Footer } from '@/components/Footer';
+import { SearchBar } from '@/components/SearchBar';
+import { HeroSearchWrapper } from '@/components/HeroSearchWrapper';
 
 export default function Home() {
   return (
@@ -11,12 +13,13 @@ export default function Home() {
       <NavigationBar />
 
       {/* HeroSection - Main headline and call-to-action */}
-      <HeroSection
-        headline="Minecraft Automated Farm Wiki"
+      <HeroSearchWrapper
+        headline="Welcome to FarmCraft!"
         subheadline="Your comprehensive guide to building efficient automated farms. From simple crop harvesters to complex mob grinders, master the art of automation."
-        ctaText="Explore Farms"
+        ctaText="Explore Farm Guides"
         ctaHref="/farms"
-      />
+      >
+      </HeroSearchWrapper>
 
       {/* FarmCategories - Grid of farm category cards */}
       <FarmCategories categories={FARM_CATEGORIES} />

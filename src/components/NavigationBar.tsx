@@ -10,7 +10,7 @@ const NAV_LINKS: NavLink[] = [
   { label: 'About', href: '/about' },
 ];
 
-export function NavigationBar({ siteName = 'Minecraft Farm Wiki' }: NavigationBarProps) {
+export function NavigationBar({ siteName = 'FarmCraft' }: NavigationBarProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const toggleMobileMenu = useCallback(() => {
