@@ -32,8 +32,6 @@ export interface NavigationBarProps {
 export interface HeroSectionProps {
   headline: string;
   subheadline: string;
-  ctaText: string;
-  ctaHref: string;
   children?: React.ReactNode;
 }
 
