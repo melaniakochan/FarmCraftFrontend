@@ -1,10 +1,11 @@
 import { NavigationBar } from '@/components/NavigationBar';
 import { SearchBar } from '@/components/SearchBar';
 import { Footer } from '@/components/Footer';
-import { SimpleBuildCard } from '@/components/SimpleBuildCard';
 import { getBuilds } from '@/lib/api';
 import { redirect } from 'next/navigation';
 import type { Build } from '@/types';
+import { SearchResults } from '@/components/SearchResults';
+import { MOCK_FARMS } from '@/data/mockFarms';
 
 export default async function FarmsPage({
     searchParams,
@@ -13,11 +14,17 @@ export default async function FarmsPage({
 }) {
     const { q: query } = await searchParams;
 
-    // 1. Directly fetch the builds (Server Component style)
-    // We add a .catch to prevent the whole page from crashing if the URL is still bad
-    const allBuilds: Build[] = await getBuilds().catch(() => []);
+    //const allBuilds: Build[] = await getBuilds().catch(() => []);
 
-    // 2. Identify the specific build to show
+    const allBuilds: Build[] = MOCK_FARMS.filter((farm) => {
+        if (!query) return true;
+        const searchTerm = query.toLowerCase();
+        return (
+            farm.name.toLowerCase().includes(searchTerm) ||
+            farm.output.toLowerCase().includes(searchTerm)
+        );
+    }); //ADDED TO DISPLAY MOCK DATA
+
     const displayBuild = allBuilds.length > 0 ? allBuilds[0] : null;
 
     async function handleSearchAction(formData: string) {
@@ -27,9 +34,9 @@ export default async function FarmsPage({
 
     return (
         <main className="min-h-screen flex flex-col bg-gray-50">
-            {/* THIS IS THE MOST IMPORTANT PART: What does this print? */}
+            {/* shows [] */}
             <div className="bg-black text-green-400 p-2 text-[10px] font-mono overflow-auto max-h-40">
-                DEBUG DATA: {JSON.stringify(allBuilds, null, 2)}
+                DEBUG DATA (MOCK MODE): {JSON.stringify(allBuilds, null, 2)}
             </div>
 
             <NavigationBar />
@@ -40,11 +47,11 @@ export default async function FarmsPage({
                     <SearchBar defaultValue={query} onSearch={handleSearchAction} />
                 </div>
 
-                <section className="max-w-md">
+                <section className="w-full">
                     <h3 className="text-sm font-semibold uppercase text-gray-400 mb-2">
                         Latest Build Found
                     </h3>
-                    <SimpleBuildCard build={displayBuild} />
+                    <SearchResults initialData={allBuilds} />
 
                     {!displayBuild && (
                         <p className="mt-4 text-sm text-red-500 italic">
