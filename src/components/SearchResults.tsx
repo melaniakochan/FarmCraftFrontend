@@ -35,20 +35,29 @@ export const SearchResults = ({ initialData }: SearchResultsProps) => {
                 <tbody className="divide-y divide-gray-200">
                     {farms.map((farm) => (
                         <tr key={farm.id} className="hover:bg-gray-50 transition-colors">
-                            {/* THE LINK: Only wraps the name text inside the TD */}
+                            {/* FARM NAME: Replaces underscores and capitalizes */}
                             <td className="px-4 py-4 text-sm font-medium">
                                 <Link
                                     href={`/farms/${farm.id}`}
-                                    className="text-blue-600 hover:text-blue-800 hover:underline decoration-blue-400 decoration-2 underline-offset-2"
+                                    className="text-blue-600 hover:text-blue-800 hover:underline decoration-blue-400 decoration-2 underline-offset-2 capitalize"
                                 >
-                                    {farm.name}
+                                    {farm.name?.replace(/_/g, ' ')}
                                 </Link>
                             </td>
 
-                            {/* REST OF THE DATA: Remains visible and correctly aligned */}
-                            <td className="px-4 py-4 text-sm text-gray-800">{farm.output}</td>
-                            <td className="px-4 py-4 text-sm text-gray-800">{farm.rate_per_hr}</td>
-                            <td className="px-4 py-4 text-sm text-gray-800">{farm.difficulty}</td>
+                            {/* OUTPUT: Replaces underscores and capitalizes */}
+                            <td className="px-4 py-4 text-sm text-gray-800 capitalize">
+                                {farm.output?.replace(/_/g, ' ')}
+                            </td>
+
+                            {/* RATE: Formatted with commas */}
+                            <td className="px-4 py-4 text-sm text-gray-800">
+                                {typeof farm.rate_per_hr === 'number'
+                                    ? farm.rate_per_hr.toLocaleString()
+                                    : farm.rate_per_hr}
+                            </td>
+
+                            <td className="px-4 py-4 text-sm text-gray-800">{farm.difficulty}/10</td>
                             <td className="px-4 py-4 text-sm text-gray-800">{farm.java ? "Java" : "Bedrock"}</td>
                             <td className="px-4 py-4 text-sm text-gray-800">{farm.version}</td>
                         </tr>

@@ -147,3 +147,9 @@ export interface MaterialsListProps {
 export interface YouTubeEmbedProps {
   url?: string;
 }
+
+export interface FarmHeaderProps {
+  name?: string;
+  java?: boolean;
+  version?: string;
+}

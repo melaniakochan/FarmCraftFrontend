@@ -40,7 +40,7 @@ export const FarmStats = ({ data }: StatsProps) => {
                 {/* AFK */}
                 <div className="flex justify-between border-b border-gray-50 pb-2">
                     <span className="text-gray-600 font-medium">AFK Capable</span>
-                    <span className={`font-bold uppercase ${data?.afk ? 'text-green-600' : 'text-red-700'}`}>
+                    <span className={`font-bold ${data?.afk ? 'text-green-600' : 'text-red-700'}`}>
                         {data?.afk ? "Yes" : "No"}
                     </span>
                 </div>
