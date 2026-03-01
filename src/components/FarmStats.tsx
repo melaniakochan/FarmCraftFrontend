@@ -1,5 +1,5 @@
 import React from 'react';
-import { Build, StatsProps } from '@/types'; // 1. Import your actual Build type
+import { Build, StatsProps } from '@/types';
 
 export const FarmStats = ({ data }: StatsProps) => {
     // Helper to safely format the rate whether it's a string or number
@@ -9,13 +9,18 @@ export const FarmStats = ({ data }: StatsProps) => {
         return rate.toLocaleString();
     };
 
+    // Clean up underscores in the output string
+    const formattedOutput = data?.output?.replace(/_/g, ' ') || "—";
+
     return (
         <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
             <div className="space-y-5">
-                {/* Output */}
+                {/* Output - Now with underscore replacement and capitalization */}
                 <div className="flex justify-between border-b border-gray-50 pb-2">
                     <span className="text-gray-500 font-medium">Output</span>
-                    <span className="text-gray-600 font-semibold">{data?.output || "—"}</span>
+                    <span className="text-gray-600 font-semibold capitalize">
+                        {formattedOutput}
+                    </span>
                 </div>
 
                 {/* Rate - Fixed to handle string or number */}

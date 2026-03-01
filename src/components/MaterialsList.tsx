@@ -20,7 +20,7 @@ export const MaterialsList = ({ materials }: MaterialsListProps) => {
                         <span className="text-xs text-gray-700 capitalize">
                             {item.replace(/_/g, ' ')}
                         </span>
-                        <span className="font-mono font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded text-[11px]">
+                        <span className="font-bold text-blue-700 px-2 py-0.5 rounded text-[11px]">
                             {String(count)}
                         </span>
                     </li>

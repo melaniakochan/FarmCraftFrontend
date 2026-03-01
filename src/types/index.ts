@@ -143,3 +143,7 @@ export interface StatsProps {
 export interface MaterialsListProps {
   materials: Record<string, any> | null;
 }
+
+export interface YouTubeEmbedProps {
+  url?: string;
+}
