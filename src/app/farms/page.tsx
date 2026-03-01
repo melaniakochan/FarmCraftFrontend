@@ -1,10 +1,12 @@
 import { NavigationBar } from '@/components/NavigationBar';
 import { SearchBar } from '@/components/SearchBar';
 import { Footer } from '@/components/Footer';
-import { SimpleBuildCard } from '@/components/SimpleBuildCard';
+import { getBuilds } from '@/lib/api';
+import { redirect } from 'next/navigation';
+import type { Build } from '@/types';
+import { SearchResults } from '@/components/SearchResults';
 import { getBuildById } from '@/lib/buildapi'; 
 import { getSpecificImage } from '@/lib/imageapi';
-import { redirect } from 'next/navigation';
 
 /**
  * Sub-component to handle the async image fetch.
@@ -34,17 +36,30 @@ export default async function TestSingleBuildPage({
 }) {
     const { q: query } = await searchParams;
 
+    //const allBuilds: Build[] = await getBuilds().catch(() => []);
+
+    const allBuilds: Build[] = MOCK_FARMS.filter((farm) => {
+        if (!query) return true;
+        const searchTerm = query.toLowerCase();
+        return (
+            farm.name.toLowerCase().includes(searchTerm) ||
+            farm.output.toLowerCase().includes(searchTerm)
+        );
+    }); //ADDED TO DISPLAY MOCK DATA
+
+    const displayBuild = allBuilds.length > 0 ? allBuilds[0] : null;
     const TEST_ID = "0";
     let fullData: any = null; // Changed to 'any' for quick testing of the new structure
     let errorLog: string | null = null;
 
-    try {
+    /* try {
         // This now returns { build: {...}, materials: {...} }
         fullData = await getBuildById(TEST_ID);
     } catch (err: any) {
         console.error("Fetch Error:", err);
         errorLog = err.message || "Unknown error occurred fetching ID 0";
     }
+    */
 
     async function handleSearchAction(formData: string) {
         'use server';
@@ -53,12 +68,9 @@ export default async function TestSingleBuildPage({
 
     return (
         <main className="min-h-screen flex flex-col bg-gray-50">
-            {/* 1. RAW DEBUG BAR - Verify the structure here first */}
-            <div className="bg-black text-green-400 p-4 text-[11px] font-mono overflow-auto max-h-64">
-                <p className="font-bold border-b border-green-900 mb-2">RAW API RESPONSE (ID: {TEST_ID})</p>
-                {fullData 
-                    ? <pre>{JSON.stringify(fullData, null, 2)}</pre>
-                    : <span className="text-red-500">Error: {errorLog}</span>}
+            {/* shows [] */}
+            <div className="bg-black text-green-400 p-2 text-[10px] font-mono overflow-auto max-h-40">
+                DEBUG DATA (MOCK MODE): {JSON.stringify(allBuilds, null, 2)}
             </div>
 
             <NavigationBar />
@@ -69,8 +81,21 @@ export default async function TestSingleBuildPage({
                     <SearchBar defaultValue={query} onSearch={handleSearchAction} />
                 </div>
 
+                <section className="w-full">
+                    <h3 className="text-sm font-semibold uppercase text-gray-400 mb-2">
+                        Latest Build Found
+                    </h3>
+                    <SearchResults initialData={allBuilds} />
+
+                    {!displayBuild && (
+                        <p className="mt-4 text-sm text-red-500 italic">
+                            The array is empty. This means the API connected but found no data in DynamoDB.
+                        </p>
+                    )}
+                </section>
+        /*
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    {/* 2. BUILD CARD SECTION */}
+                    {}
                     <section>
                         <h3 className="text-sm font-semibold uppercase text-gray-400 mb-2">Build Info</h3>
                         {fullData?.build ? (
@@ -81,7 +106,7 @@ export default async function TestSingleBuildPage({
                             </div>
                         )}
                         
-                        {/* 3. IMAGE PREVIEW */}
+                        {}
                         <div className="mt-6 p-4 border rounded bg-white">
                             <h3 className="text-sm font-bold mb-2">Image Test:</h3>
                             {fullData?.build ? (
@@ -92,7 +117,7 @@ export default async function TestSingleBuildPage({
                         </div>
                     </section>
 
-                    {/* 4. MATERIALS TEST SECTION */}
+                    {}
                     <section>
                         <h3 className="text-sm font-semibold uppercase text-gray-400 mb-2">Materials List</h3>
                         {fullData?.materials ? (
@@ -113,7 +138,7 @@ export default async function TestSingleBuildPage({
                             <p className="text-sm text-gray-500 italic">No materials found in response.</p>
                         )}
                     </section>
-                </div>
+                </div> */
             </div>
 
             <div className="mt-auto">

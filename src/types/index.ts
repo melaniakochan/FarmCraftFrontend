@@ -69,7 +69,7 @@ export interface Build {
   name: string;
   output: string;
   dimension: string;
-  'rate/hr': number | string;
+  rateperhr: number | string;
   difficulty: number;
   afk: boolean;
   version: string;
@@ -96,8 +96,10 @@ export interface HeroSearchWrapperProps {
 }
 
 /**
- * Props for the build object
+ * Props for the SearchResults component
  */
+export interface SearchResultsProps {
+  initialData?: Build[]; // Optional prop
 export interface Build {
   dimension: string;
   version: string;
@@ -109,13 +111,6 @@ export interface Build {
   java: boolean;
   id_string: string;
   name: string;
-}
-
-/**
- * Props for the ResultsTable component
- */
-export interface ResultsTableProps {
-  builds: Build[];
 }
 
 export interface Materials {
