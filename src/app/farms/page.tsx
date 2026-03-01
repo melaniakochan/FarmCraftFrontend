@@ -1,27 +1,29 @@
 import { NavigationBar } from '@/components/NavigationBar';
 import { SearchBar } from '@/components/SearchBar';
 import { Footer } from '@/components/Footer';
+import { SimpleBuildCard } from '@/components/SimpleBuildCard';
 import { getBuilds } from '@/lib/api';
 import { redirect } from 'next/navigation';
-// import { ResultsTable } from '@/components/ResultsTable'; // We'll build this next
+import type { Build } from '@/types';
 
 export default async function FarmsPage({
     searchParams,
 }: {
     searchParams: Promise<{ q?: string }>;
 }) {
-    // 1. Get the search query from the URL
     const { q: query } = await searchParams;
 
-    // 2. Fetch all builds (or filter them if your API supports it)
-    const allBuilds = await getBuilds();
+    let allBuilds: Build[] = [];
+    let errorMessage = null;
 
-    // 3. Simple client-side style filtering if your API doesn't filter by 'q' yet
-    const filteredBuilds = query
-        ? allBuilds.filter((build: any) =>
-            build.name.toLowerCase().includes(query.toLowerCase())
-        )
-        : allBuilds;
+    try {
+        allBuilds = await getBuilds();
+    } catch (e) {
+        console.error("PAGE FETCH ERROR:", e);
+        errorMessage = "The API is currently unreachable. Check your .env.local URL.";
+    }
+
+    const displayBuild = allBuilds.length > 0 ? allBuilds[0] : null;
 
     async function handleSearchAction(formData: string) {
         'use server';
@@ -29,35 +31,27 @@ export default async function FarmsPage({
     }
 
     return (
-        <main className="min-h-screen flex flex-col">
+        <main className="min-h-screen flex flex-col bg-gray-50">
             <NavigationBar />
 
             <div className="container mx-auto py-8 px-4">
-                {/* Search Bar at the top of the results */}
                 <div className="max-w-2xl mb-12">
-                    <h1 className="text-2xl font-bold mb-4">Search Results</h1>
-                    <SearchBar defaultValue={query}
-                        onSearch={handleSearchAction} />
+                    <h1 className="text-2xl font-bold mb-4">API Verification</h1>
+                    <SearchBar defaultValue={query} onSearch={handleSearchAction} />
                 </div>
 
-                {/* Results Section */}
-                {filteredBuilds.length > 0 ? (
-                    <section>
-                        {/* Replace this with your Table component soon */}
-                        <p className="mb-4 text-gray-600">Found {filteredBuilds.length} farms for "{query}"</p>
-                        <div className="border rounded-lg p-4 bg-gray-50">
-                            {/* Table Placeholder */}
-                            <p>Results Table will go here...</p>
-                        </div>
-                    </section>
-                ) : (
-                    <div className="py-20 text-center">
-                        <p className="text-xl text-gray-500">No farms found for "{query}". Try a different search!</p>
-                    </div>
-                )}
+                <section className="max-w-md">
+                    <h3 className="text-sm font-semibold uppercase text-gray-400 mb-2">
+                        Latest Build Found
+                    </h3>
+                    {/* Just the name and the ID */}
+                    <SimpleBuildCard build={displayBuild} />
+                </section>
             </div>
 
-            <Footer />
+            <div className="mt-auto">
+                <Footer />
+            </div>
         </main>
     );
 }

@@ -1,18 +1,35 @@
 import { Build } from '@/types';
 
+// Use the full URL provided by your teammate (including the stage like /dev)
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
-/**
- * Fetches all builds from the API
- */
 export async function getBuilds(): Promise<Build[]> {
-  const response = await fetch(`${API_BASE_URL}/builds`, {
-    next: { revalidate: 60 }, // Cache for 60 seconds
-  });
-
-  if (!response.ok) {
-    throw new Error(`Failed to fetch builds: ${response.status}`);
+  if (!API_BASE_URL) {
+    throw new Error("API_BASE_URL is not defined in .env.local");
   }
 
-  return response.json();
+  try {
+    // Note: We removed the extra "/builds" if your API URL already points to the function
+    const response = await fetch(`${API_BASE_URL}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      next: { revalidate: 60 },
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+
+    // AWS Lambda often returns the data inside a 'body' property if not using Proxy Integration
+    // If your app.py is handled by a Function URL, 'data' might be the array directly.
+    return Array.isArray(data) ? data : JSON.parse(data.body || '[]');
+
+  } catch (error) {
+    console.error("Fetch failed:", error);
+    throw error;
+  }
 }
