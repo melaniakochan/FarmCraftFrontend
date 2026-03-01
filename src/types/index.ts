@@ -117,3 +117,15 @@ export interface Build {
 export interface ResultsTableProps {
   builds: Build[];
 }
+
+export interface Materials {
+  [key: string]: number | string; // Allows for dynamic material names
+  id: string;
+  bid: number;
+}
+
+// This represents the full object coming from your API
+export interface BuildApiResponse {
+  build: Build;
+  materials: Materials;
+}
