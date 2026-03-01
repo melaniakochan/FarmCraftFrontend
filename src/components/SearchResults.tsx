@@ -38,7 +38,7 @@ export const SearchResults = ({ initialData }: SearchResultsProps) => {
                             {/* Use text-gray-800 or black for the data cells */}
                             <td className="px-4 py-4 text-sm font-medium text-gray-800">{farm.name}</td>
                             <td className="px-4 py-4 text-sm text-gray-800">{farm.output}</td>
-                            <td className="px-4 py-4 text-sm text-gray-800">{farm.rateperhr}</td>
+                            <td className="px-4 py-4 text-sm text-gray-800">{farm.rate_per_hr}</td>
                             <td className="px-4 py-4 text-sm text-gray-800">{farm.difficulty}</td>
                             <td className="px-4 py-4 text-sm text-gray-800">{farm.java ? "Java" : "Bedrock"}</td>
                             <td className="px-4 py-4 text-sm text-gray-800">{farm.version}</td>
