@@ -3,9 +3,32 @@ import { SearchBar } from '@/components/SearchBar';
 import { Footer } from '@/components/Footer';
 import { SimpleBuildCard } from '@/components/SimpleBuildCard';
 import { getBuilds } from '@/lib/api';
+import { getSpecificImage } from '@/lib/imageapi';
 import { redirect } from 'next/navigation';
 import type { Build } from '@/types';
 
+/**
+ * Sub-component to handle the async image fetch.
+ * Since this is a Server Component, Next.js will wait for this 
+ * to resolve before finishing the page stream.
+ */
+async function ImagePreview({ itemName }: { itemName: string }) {
+    try {
+        // Now returns the object: { url: "https://s3..." }
+        const data = await getSpecificImage(itemName);
+
+        return (
+            <img 
+                src={data.url} 
+                alt={`Preview of ${itemName}`} 
+                className="max-w-xs rounded shadow border border-gray-200" 
+            />
+        );
+    } catch (e) {
+        console.error("ImagePreview Error:", e);
+        return <p className="text-xs text-red-400">Could not load image for "{itemName}"</p>;
+    }
+}
 export default async function FarmsPage({
     searchParams,
 }: {
@@ -13,11 +36,10 @@ export default async function FarmsPage({
 }) {
     const { q: query } = await searchParams;
 
-    // 1. Directly fetch the builds (Server Component style)
-    // We add a .catch to prevent the whole page from crashing if the URL is still bad
+    // 1. Fetch builds with a catch to prevent total page failure
     const allBuilds: Build[] = await getBuilds().catch(() => []);
 
-    // 2. Identify the specific build to show
+    // 2. Identify the specific build to show (Logic remains same as your snippet)
     const displayBuild = allBuilds.length > 0 ? allBuilds[0] : null;
 
     async function handleSearchAction(formData: string) {
@@ -27,7 +49,7 @@ export default async function FarmsPage({
 
     return (
         <main className="min-h-screen flex flex-col bg-gray-50">
-            {/* THIS IS THE MOST IMPORTANT PART: What does this print? */}
+            {/* DEBUG SECTION */}
             <div className="bg-black text-green-400 p-2 text-[10px] font-mono overflow-auto max-h-40">
                 DEBUG DATA: {JSON.stringify(allBuilds, null, 2)}
             </div>
@@ -52,6 +74,18 @@ export default async function FarmsPage({
                         </p>
                     )}
                 </section>
+
+                {/* IMAGE PREVIEW SECTION */}
+                <div className="mt-8 p-4 border rounded bg-white max-w-md">
+                    <h3 className="text-sm font-bold mb-2">Specific Image Preview:</h3>
+                    {displayBuild ? (
+                        <ImagePreview itemName="Chest" />
+                    ) : (
+                        <p className="text-xs text-gray-500 italic">
+                            No builds found in the database to trigger image fetch.
+                        </p>
+                    )}
+                </div>
             </div>
 
             <div className="mt-auto">
