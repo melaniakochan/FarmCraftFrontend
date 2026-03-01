@@ -100,4 +100,27 @@ export interface HeroSearchWrapperProps {
  */
 export interface SearchResultsProps {
   initialData?: Build[]; // Optional prop
+export interface Build {
+  dimension: string;
+  version: string;
+  afk: boolean;
+  output: string;
+  rate_hr: number;
+  youtubelink: string;
+  difficulty: number;
+  java: boolean;
+  id_string: string;
+  name: string;
+}
+
+export interface Materials {
+  [key: string]: number | string; // Allows for dynamic material names
+  id: string;
+  bid: number;
+}
+
+// This represents the full object coming from your API
+export interface BuildApiResponse {
+  build: Build;
+  materials: Materials;
 }
