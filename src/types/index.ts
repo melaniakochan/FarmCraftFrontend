@@ -94,3 +94,26 @@ export interface HeroSearchWrapperProps {
   ctaText: string;
   ctaHref: string;
 }
+
+/**
+ * Props for the build object
+ */
+export interface Build {
+  dimension: string;
+  version: string;
+  afk: boolean;
+  output: string;
+  rate_hr: number;
+  youtubelink: string;
+  difficulty: number;
+  java: boolean;
+  id_string: string;
+  name: string;
+}
+
+/**
+ * Props for the ResultsTable component
+ */
+export interface ResultsTableProps {
+  builds: Build[];
+}
