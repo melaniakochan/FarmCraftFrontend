@@ -69,7 +69,7 @@ export interface Build {
   name: string;
   output: string;
   dimension: string;
-  'rate/hr': number | string;
+  rate_per_hr: number | string;
   difficulty: number;
   afk: boolean;
   version: string;
@@ -96,8 +96,12 @@ export interface HeroSearchWrapperProps {
 }
 
 /**
- * Props for the build object
+ * Props for the SearchResults component
  */
+export interface SearchResultsProps {
+  initialData?: Build[];
+}
+
 export interface Build {
   dimension: string;
   version: string;
@@ -111,9 +115,41 @@ export interface Build {
   name: string;
 }
 
-/**
- * Props for the ResultsTable component
- */
-export interface ResultsTableProps {
-  builds: Build[];
+export interface Materials {
+  [key: string]: number | string; // Allows for dynamic material names
+  id: string;
+  bid: number;
+}
+
+export interface BuildApiResponse {
+  build: Build;
+  materials: Materials;
+}
+
+export interface FarmStatsProps {
+  data: {
+    output?: string;
+    rate_per_hr?: number;
+    difficulty?: number;
+    afk?: boolean;
+    dimension?: string;
+  } | null;
+}
+
+export interface StatsProps {
+  data: Build | null; // 2. Use the real Build type here
+}
+
+export interface MaterialsListProps {
+  materials: Record<string, any> | null;
+}
+
+export interface YouTubeEmbedProps {
+  url?: string;
+}
+
+export interface FarmHeaderProps {
+  name?: string;
+  java?: boolean;
+  version?: string;
 }

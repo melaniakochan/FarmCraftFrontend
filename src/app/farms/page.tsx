@@ -1,10 +1,11 @@
 import { NavigationBar } from '@/components/NavigationBar';
 import { SearchBar } from '@/components/SearchBar';
 import { Footer } from '@/components/Footer';
-import { SimpleBuildCard } from '@/components/SimpleBuildCard';
 import { getBuilds } from '@/lib/api';
 import { redirect } from 'next/navigation';
 import type { Build } from '@/types';
+import { SearchResults } from '@/components/SearchResults';
+import { getBuildById } from '@/lib/buildapi';
 
 export default async function FarmsPage({
     searchParams,
@@ -13,13 +14,20 @@ export default async function FarmsPage({
 }) {
     const { q: query } = await searchParams;
 
-    // 1. Directly fetch the builds (Server Component style)
-    // We add a .catch to prevent the whole page from crashing if the URL is still bad
-    const allBuilds: Build[] = await getBuilds().catch(() => []);
+    // 1. Get the real list from the API
+    // We fetch everything, then filter based on the user's search query
+    const apiBuilds: Build[] = await getBuilds().catch(() => []);
 
-    // 2. Identify the specific build to show
-    const displayBuild = allBuilds.length > 0 ? allBuilds[0] : null;
+    const filteredBuilds = apiBuilds.filter((farm) => {
+        if (!query) return true;
+        const searchTerm = query.toLowerCase();
+        return (
+            farm.name.toLowerCase().includes(searchTerm) ||
+            farm.output.toLowerCase().includes(searchTerm)
+        );
+    });
 
+    // 2. Search Action for the SearchBar component
     async function handleSearchAction(formData: string) {
         'use server';
         redirect(`/farms?q=${encodeURIComponent(formData)}`);
@@ -27,29 +35,32 @@ export default async function FarmsPage({
 
     return (
         <main className="min-h-screen flex flex-col bg-gray-50">
-            {/* THIS IS THE MOST IMPORTANT PART: What does this print? */}
-            <div className="bg-black text-green-400 p-2 text-[10px] font-mono overflow-auto max-h-40">
-                DEBUG DATA: {JSON.stringify(allBuilds, null, 2)}
-            </div>
-
             <NavigationBar />
 
             <div className="container mx-auto py-8 px-4">
                 <div className="max-w-2xl mb-12">
-                    <h1 className="text-2xl font-bold mb-4">API Verification</h1>
+                    <h1 className="text-3xl font-bold mb-2 tracking-tight text-gray-500">Minecraft Farm Database</h1>
+                    <p className="text-gray-500 mb-6">Search through community-tested builds and rates.</p>
                     <SearchBar defaultValue={query} onSearch={handleSearchAction} />
                 </div>
 
-                <section className="max-w-md">
-                    <h3 className="text-sm font-semibold uppercase text-gray-400 mb-2">
-                        Latest Build Found
-                    </h3>
-                    <SimpleBuildCard build={displayBuild} />
+                <section className="w-full">
+                    <div className="flex justify-between items-end mb-4">
+                        <h3 className="text-sm font-semibold uppercase text-gray-400 tracking-widest">
+                            {query ? `Results for "${query}"` : 'Latest Builds'}
+                        </h3>
+                        <span className="text-xs text-gray-400 font-mono">
+                            {filteredBuilds.length} farms found
+                        </span>
+                    </div>
 
-                    {!displayBuild && (
-                        <p className="mt-4 text-sm text-red-500 italic">
-                            The array is empty. This means the API connected but found no data in DynamoDB.
-                        </p>
+                    {/* YOUR PRETTY UI: Just pass the filtered API data here */}
+                    <SearchResults initialData={filteredBuilds} />
+
+                    {filteredBuilds.length === 0 && (
+                        <div className="mt-8 p-12 text-center border-2 border-dashed rounded-xl border-gray-200">
+                            <p className="text-gray-400 italic">No farms matching that criteria were found in the database.</p>
+                        </div>
                     )}
                 </section>
             </div>
