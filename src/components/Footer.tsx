@@ -6,7 +6,7 @@ import { FooterProps } from '@/types';
  */
 export function Footer({
   copyrightYear = new Date().getFullYear(),
-  siteName = 'Minecraft Farm Wiki',
+  siteName = 'FarmCraft',
 }: FooterProps) {
   return (
     <footer className="bg-green-900 text-green-100 py-6 md:py-8">

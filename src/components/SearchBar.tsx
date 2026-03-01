@@ -14,20 +14,21 @@ export function SearchBar({ onSearch, defaultValue = '' }: SearchBarProps) {
     return (
         <form
             onSubmit={handleSubmit}
-            className="flex items-center w-full bg-white rounded-lg shadow-md overflow-hidden border border-gray-200 focus-within:ring-2 focus-within:ring-amber-500 transition-all"
+            className="flex items-stretch w-full bg-white rounded-lg shadow-md overflow-hidden border border-gray-200 focus-within:ring-2 focus-within:ring-green-500 transition-all h-12"
         >
             <input
                 type="text"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="Search for a farm (e.g. Iron, Gold...)"
-                className="w-full px-4 py-3 text-gray-900 focus:outline-none"
+                className="w-full px-4 flex items-center text-gray-900 focus:outline-none leading-none placeholder:leading-none"
             />
             <button
                 type="submit"
-                className="bg-amber-500 hover:bg-amber-600 text-white px-6 py-3 font-semibold transition-colors"
+                className="inline-flex items-center justify-center bg-green-700 hover:bg-green-800 text-white px-8 font-semibold transition-colors focus:outline-none leading-none h-full"
             >
-                Search
+                {/* Nudged slightly for optical centering */}
+                <span className="relative top-[0.5px]">Search</span>
             </button>
         </form>
     );

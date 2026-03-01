@@ -121,8 +121,35 @@ export interface Materials {
   bid: number;
 }
 
-// This represents the full object coming from your API
 export interface BuildApiResponse {
   build: Build;
   materials: Materials;
+}
+
+export interface FarmStatsProps {
+  data: {
+    output?: string;
+    rate_per_hr?: number;
+    difficulty?: number;
+    afk?: boolean;
+    dimension?: string;
+  } | null;
+}
+
+export interface StatsProps {
+  data: Build | null; // 2. Use the real Build type here
+}
+
+export interface MaterialsListProps {
+  materials: Record<string, any> | null;
+}
+
+export interface YouTubeEmbedProps {
+  url?: string;
+}
+
+export interface FarmHeaderProps {
+  name?: string;
+  java?: boolean;
+  version?: string;
 }
