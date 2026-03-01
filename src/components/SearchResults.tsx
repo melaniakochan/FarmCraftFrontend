@@ -1,5 +1,6 @@
 'use client'
 
+import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { Build, SearchResultsProps } from '../types/index';
 
@@ -23,8 +24,7 @@ export const SearchResults = ({ initialData }: SearchResultsProps) => {
             <table className="min-w-full table-auto border-collapse">
                 <thead className="bg-gray-100 border-b border-gray-200">
                     <tr>
-                        {/* Explicitly set text-gray-900 for high contrast */}
-                        <th className="px-4 py-3 min-w-45 text-left text-xs font-bold text-gray-900 uppercase tracking-wider">Farm Name</th>
+                        <th className="px-4 py-3 min-w-[180px] text-left text-xs font-bold text-gray-900 uppercase tracking-wider">Farm Name</th>
                         <th className="px-4 py-3 text-left text-xs font-bold text-gray-900 uppercase tracking-wider">Output</th>
                         <th className="px-4 py-3 text-left text-xs font-bold text-gray-900 uppercase tracking-wider">Rate/hr</th>
                         <th className="px-4 py-3 text-left text-xs font-bold text-gray-900 uppercase tracking-wider">Difficulty</th>
@@ -35,8 +35,17 @@ export const SearchResults = ({ initialData }: SearchResultsProps) => {
                 <tbody className="divide-y divide-gray-200">
                     {farms.map((farm) => (
                         <tr key={farm.id} className="hover:bg-gray-50 transition-colors">
-                            {/* Use text-gray-800 or black for the data cells */}
-                            <td className="px-4 py-4 text-sm font-medium text-gray-800">{farm.name}</td>
+                            {/* THE LINK: Only wraps the name text inside the TD */}
+                            <td className="px-4 py-4 text-sm font-medium">
+                                <Link
+                                    href={`/farms/${farm.id}`}
+                                    className="text-blue-600 hover:text-blue-800 hover:underline decoration-blue-400 decoration-2 underline-offset-2"
+                                >
+                                    {farm.name}
+                                </Link>
+                            </td>
+
+                            {/* REST OF THE DATA: Remains visible and correctly aligned */}
                             <td className="px-4 py-4 text-sm text-gray-800">{farm.output}</td>
                             <td className="px-4 py-4 text-sm text-gray-800">{farm.rate_per_hr}</td>
                             <td className="px-4 py-4 text-sm text-gray-800">{farm.difficulty}</td>
@@ -48,4 +57,4 @@ export const SearchResults = ({ initialData }: SearchResultsProps) => {
             </table>
         </div>
     );
-};
+}
