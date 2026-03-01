@@ -1,4 +1,4 @@
-import { Build } from '../types/index';
+/* import { Build } from '../types/index';
 
 export const MOCK_FARMS: Build[] = [
     {
@@ -27,4 +27,4 @@ export const MOCK_FARMS: Build[] = [
         youtubelink: "https://youtube.com"
 
     }
-]
+] */
