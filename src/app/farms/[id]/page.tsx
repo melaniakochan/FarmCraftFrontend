@@ -1,5 +1,8 @@
+// app/farms/[id]/page.tsx
 import { NavigationBar } from '@/components/NavigationBar';
 import { Footer } from '@/components/Footer';
+import { getBuildById } from '@/lib/buildapi';
+import { FarmStats } from '@/components/FarmStats'; // Import your new component
 import Link from 'next/link';
 
 export default async function FarmDetailPage({
@@ -9,23 +12,27 @@ export default async function FarmDetailPage({
 }) {
     const { id } = await params;
 
+    let farmData = null;
+    try {
+        farmData = await getBuildById(id);
+    } catch (error) {
+        console.error("Could not fetch farm details:", error);
+    }
+
+    const farmName = farmData?.build?.name || "Unknown Farm";
+
     return (
         <main className="min-h-screen flex flex-col bg-gray-50">
             <NavigationBar />
+
             <div className="container mx-auto py-12 px-4">
+                {/* Back Button */}
                 <div className="mb-6">
                     <Link
                         href="/farms"
                         className="group inline-flex items-center text-sm font-medium text-gray-500 hover:text-blue-600 transition-colors"
                     >
-                        {/* Heroicons-style arrow */}
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="h-4 w-4 mr-2 transform group-hover:-translate-x-1 transition-transform"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                        >
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2 transform group-hover:-translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                         </svg>
                         Back to Search Results
@@ -33,14 +40,25 @@ export default async function FarmDetailPage({
                 </div>
 
                 <h1 className="text-3xl font-bold text-gray-500">Farm Details</h1>
-                <p className="mt-4 text-gray-600">
-                    You are viewing the details for Farm ID: <span className="font-mono text-blue-600 font-bold">{id}</span>
-                </p>
+                <p className="mt-4 text-2xl font-semibold text-gray-900">{farmName}</p>
 
-                <div className="mt-8 p-6 bg-white rounded-xl shadow-sm border border-gray-200">
-                    <p className="italic text-gray-400">Step 2 will be fetching the DynamoDB data for this ID...</p>
+                {/* Main Grid Container */}
+                <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-8">
+
+                    {/* LEFT COLUMN: Now using the component */}
+                    <section className="space-y-4">
+                        <FarmStats data={farmData?.build || null} />
+                    </section>
+
+                    {/* RIGHT COLUMN */}
+                    <section className="hidden md:block">
+                        <div className="h-full border-2 border-dashed border-gray-200 rounded-xl flex items-center justify-center">
+                            <p className="text-gray-400 text-sm italic">Right side available for Materials list...</p>
+                        </div>
+                    </section>
                 </div>
             </div>
+
             <div className="mt-auto">
                 <Footer />
             </div>
