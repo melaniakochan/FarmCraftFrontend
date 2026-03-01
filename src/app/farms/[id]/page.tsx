@@ -1,8 +1,8 @@
-// app/farms/[id]/page.tsx
 import { NavigationBar } from '@/components/NavigationBar';
 import { Footer } from '@/components/Footer';
 import { getBuildById } from '@/lib/buildapi';
-import { FarmStats } from '@/components/FarmStats'; // Import your new component
+import { FarmStats } from '@/components/FarmStats';
+import { MaterialsList } from '@/components/MaterialsList'; // Import the new component
 import Link from 'next/link';
 
 export default async function FarmDetailPage({
@@ -14,6 +14,7 @@ export default async function FarmDetailPage({
 
     let farmData = null;
     try {
+        // This returns { build: Build, materials: Record<string, any> }
         farmData = await getBuildById(id);
     } catch (error) {
         console.error("Could not fetch farm details:", error);
@@ -43,18 +44,16 @@ export default async function FarmDetailPage({
                 <p className="mt-4 text-2xl font-semibold text-gray-900">{farmName}</p>
 
                 {/* Main Grid Container */}
-                <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
 
-                    {/* LEFT COLUMN: Now using the component */}
+                    {/* LEFT COLUMN: Technical Specs */}
                     <section className="space-y-4">
                         <FarmStats data={farmData?.build || null} />
                     </section>
 
-                    {/* RIGHT COLUMN */}
-                    <section className="hidden md:block">
-                        <div className="h-full border-2 border-dashed border-gray-200 rounded-xl flex items-center justify-center">
-                            <p className="text-gray-400 text-sm italic">Right side available for Materials list...</p>
-                        </div>
+                    {/* RIGHT COLUMN: Materials List */}
+                    <section>
+                        <MaterialsList materials={farmData?.materials || null} />
                     </section>
                 </div>
             </div>

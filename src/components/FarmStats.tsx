@@ -1,10 +1,5 @@
-// @/components/FarmStats.tsx
 import React from 'react';
-import { Build } from '@/types'; // 1. Import your actual Build type
-
-interface StatsProps {
-    data: Build | null; // 2. Use the real Build type here
-}
+import { Build, StatsProps } from '@/types'; // 1. Import your actual Build type
 
 export const FarmStats = ({ data }: StatsProps) => {
     // Helper to safely format the rate whether it's a string or number
@@ -49,8 +44,8 @@ export const FarmStats = ({ data }: StatsProps) => {
                 <div className="flex justify-between border-b border-gray-50 pb-2">
                     <span className="text-gray-500 font-medium">Dimension</span>
                     <span className={`font-semibold ${data?.dimension?.toLowerCase() === 'nether' ? 'text-red-600' :
-                            (data?.dimension?.toLowerCase() === 'the end' || data?.dimension?.toLowerCase() === 'end') ? 'text-purple-600' :
-                                'text-green-600'
+                        (data?.dimension?.toLowerCase() === 'the end' || data?.dimension?.toLowerCase() === 'end') ? 'text-purple-600' :
+                            'text-green-600'
                         }`}>
                         {data?.dimension || "Overworld"}
                     </span>

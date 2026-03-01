@@ -135,3 +135,11 @@ export interface FarmStatsProps {
     dimension?: string;
   } | null;
 }
+
+export interface StatsProps {
+  data: Build | null; // 2. Use the real Build type here
+}
+
+export interface MaterialsListProps {
+  materials: Record<string, any> | null;
+}
