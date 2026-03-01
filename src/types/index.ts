@@ -82,6 +82,7 @@ export interface Build {
 export interface SearchBarProps {
   placeholder?: string;
   onSearch: (query: string) => void;
+  defaultValue?: string;
 }
 
 /**

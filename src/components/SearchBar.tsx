@@ -1,12 +1,12 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, FormEvent } from 'react';
 import { SearchBarProps } from '@/types';
 
-export function SearchBar({ placeholder, onSearch }: SearchBarProps) {
-    const [query, setQuery] = useState('');
+export function SearchBar({ onSearch, defaultValue = '' }: SearchBarProps) {
+    const [query, setQuery] = useState(defaultValue);
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
         onSearch(query);
     };
@@ -20,7 +20,7 @@ export function SearchBar({ placeholder, onSearch }: SearchBarProps) {
                 type="text"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                placeholder={placeholder}
+                placeholder="Search for a farm (e.g. Iron, Gold...)"
                 className="w-full px-4 py-3 text-gray-900 focus:outline-none"
             />
             <button
