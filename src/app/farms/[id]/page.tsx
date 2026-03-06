@@ -60,7 +60,7 @@ export default async function FarmDetailPage({
                     {/* LEFT COLUMN */}
                     <section className="space-y-6">
                         <FarmStats data={farmData?.build || null} />
-                        <YouTubeEmbed url={farmData?.build?.youtubelink} />
+                        <YouTubeEmbed url={farmData?.build?.youtube_link} />
                     </section>
 
                     {/* RIGHT COLUMN */}
