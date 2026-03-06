@@ -74,7 +74,7 @@ export interface Build {
   afk: boolean;
   version: string;
   java: boolean;
-  youtubelink: string;
+  youtube_link: string;
 }
 /**
  * Props for the SearchBar component
@@ -108,7 +108,7 @@ export interface Build {
   afk: boolean;
   output: string;
   rate_hr: number;
-  youtubelink: string;
+  youtube_link: string;
   difficulty: number;
   java: boolean;
   id_string: string;
